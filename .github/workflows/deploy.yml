@@ -84,17 +84,12 @@ jobs:
           find out/ -type f -name "*.html" | head -10
           echo "Total files: $(find out/ -type f | wc -l)"
 
-      - name: Deploy to FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      - name: Deploy to SFTP
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
           server: ${{ secrets.FTP_HOSTNAME }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: out/
-          server-dir: htdocs/
-          log-level: verbose
-          exclude: |
-            **/.git*/**
-            **/node_modules/**
-            **/*.map
-            **/.DS_Store
+          local_path: './out/*'
+          remote_path: '/htdocs/'
+          sftpArgs: '-o ConnectTimeout=5'
