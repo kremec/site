@@ -9,19 +9,25 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@mdx-js/loader": "^3.1.0",
+    "@next/mdx": "^15.3.4",
+    "@tailwindcss/typography": "^0.5.16",
+    "@types/mdx": "^2.0.13",
+    "next": "15.3.4",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0",
-    "next": "15.3.4"
+    "react-dom": "^19.1.0"
   },
   "devDependencies": {
-    "typescript": "^5.8.3",
+    "@eslint/eslintrc": "^3.3.1",
+    "@tailwindcss/postcss": "^4.1.11",
     "@types/node": "^24.0.6",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
-    "@tailwindcss/postcss": "^4.1.11",
-    "tailwindcss": "^4.1.11",
     "eslint": "^9.30.0",
     "eslint-config-next": "15.3.4",
-    "@eslint/eslintrc": "^3.3.1"
+    "prettier": "^3.6.2",
+    "prettier-plugin-tailwindcss": "^0.6.13",
+    "tailwindcss": "^4.1.11",
+    "typescript": "^5.8.3"
   }
 }

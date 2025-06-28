@@ -1,26 +1,54 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
   }
 }
 
+@font-face {
+  font-family: 'Berkeley Mono Variable';
+  font-style: normal;
+  font-weight: 100 150;
+  src:
+    url('https://assets-d9g.pages.dev/fonts/BerkeleyMonoVariable-Regular.woff2')
+      format('woff2-variations'),
+    url('https://assets-d9g.pages.dev/fonts/BerkeleyMonoVariable-Regular.woff2')
+      format('woff2');
+}
+
+@font-face {
+  font-family: 'Berkeley Mono Variable';
+  font-style: italic;
+  font-weight: 100 150;
+  src:
+    url('https://assets-d9g.pages.dev/fonts/BerkeleyMonoVariable-Italic.woff2')
+      format('woff2-variations'),
+    url('https://assets-d9g.pages.dev/fonts/BerkeleyMonoVariable-Italic.woff2')
+      format('woff2');
+}
+
+@theme inline {
+  --font-sans: 'Berkeley Mono Variable', sans-serif;
+  --font-mono:
+    'Berkeley Mono Variable', ui-monospace, SFMono-Regular, Menlo, Monaco,
+    Consolas, 'Liberation Mono', 'Courier New', monospace;
+
+  /* Font weights */
+  --font-weight-normal: 100;
+  --font-weight-medium: 110;
+  --font-weight-semibold: 120;
+  --font-weight-bold: 130;
+  --font-weight-extrabold: 140;
+  --font-weight-black: 150;
+}
+
+html,
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  font-weight: var(--font-weight-normal);
 }

@@ -1,0 +1,97 @@
+// tailwind.config.ts
+import type { Config } from 'tailwindcss'
+
+const config: Config = {
+  content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
+  theme: {
+    extend: {
+      fontFamily: {
+        sans: ['Berkeley Mono Variable', 'sans-serif'],
+      },
+      typography: {
+        DEFAULT: {
+          css: {
+            'h1 a[linkedheading], h2 a[linkedheading], h3 a[linkedheading], h4 a[linkedheading], h5 a[linkedheading], h6 a[linkedheading]':
+              {
+                fontWeight: 'inherit',
+              },
+            a: {
+              fontWeight: '110',
+            },
+            strong: {
+              fontWeight: '120',
+            },
+            'ol > li::marker': {
+              fontWeight: '100',
+            },
+            dt: {
+              fontWeight: '120',
+            },
+            blockquote: {
+              fontWeight: '110',
+            },
+            h1: {
+              fontWeight: '140',
+            },
+            'h1 strong': {
+              fontWeight: '150',
+            },
+            h2: {
+              fontWeight: '130',
+            },
+            'h2 strong': {
+              fontWeight: '140',
+            },
+            h3: {
+              fontWeight: '120',
+            },
+            'h3 strong': {
+              fontWeight: '130',
+            },
+            h4: {
+              fontWeight: '120',
+            },
+            'h4 strong': {
+              fontWeight: '130',
+            },
+            kbd: {
+              fontWeight: '110',
+            },
+            code: {
+              fontWeight: '120',
+            },
+            pre: {
+              fontWeight: '100',
+            },
+            'thead th': {
+              fontWeight: '120',
+            },
+            'h1 a, h2 a, h3 a, h4 a, h5 a, h6 a': {
+              textDecoration: 'none',
+            },
+            'h1 a:hover::before, h2 a:hover::before, h3 a:hover::before, h4 a:hover::before, h5 a:hover::before, h6 a:hover::before':
+              {
+                content: '"#"',
+                position: 'absolute',
+                transform: 'translateX(-1.25rem)',
+              },
+            'h1, h2, h3, h4, h5, h6': {
+              position: 'relative',
+            },
+          },
+        },
+      },
+    },
+    screens: {
+      xs: '480px',
+      sm: '640px',
+      md: '768px',
+      lg: '1024px',
+      xl: '1280px',
+      '2xl': '1536px',
+    },
+  },
+  plugins: [require('@tailwindcss/typography')],
+}
+
+export default config
