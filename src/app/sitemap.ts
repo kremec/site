@@ -12,12 +12,12 @@ export default async function sitemap() {
       const metadata = await post.metadata
       return {
         url: `${baseUrl}/blog/${post.id}`,
-        lastModified: metadata.publishedAt,
+        lastModified: metadata.publishedAt.toISOString().split('T')[0],
       }
     }),
   )
 
-  const routes = ['', '/blog'].map((route) => ({
+  const routes = ['', 'portfolio', '/blog'].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date().toISOString().split('T')[0],
   }))
