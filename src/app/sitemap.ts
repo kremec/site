@@ -2,6 +2,9 @@ import { getBlogPosts } from './(pages)/blog/_lib/utils'
 
 export const baseUrl = 'https://subbyte.net'
 
+// Required for static export
+export const dynamic = 'force-static'
+
 export default async function sitemap() {
   const posts = getBlogPosts()
   const blogs = await Promise.all(
