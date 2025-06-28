@@ -3,10 +3,9 @@ import { formatDate, getBlogPosts } from '../_lib/utils'
 import { baseUrl } from '@/app/sitemap'
 import { Metadata } from 'next/types'
 import { getBlogPostMetadata } from '../_lib/post_metadata'
-import { get } from 'http'
 
 export async function generateStaticParams() {
-  let posts = getBlogPosts()
+  const posts = getBlogPosts()
   return posts.map((post) => ({ id: post.id }))
 }
 
@@ -23,7 +22,7 @@ export async function generateMetadata({
   }
   const { title, publishedAt, description, image } = metadata
 
-  let ogImage = image
+  const ogImage = image
     ? image
     : `${baseUrl}/og?title=${encodeURIComponent(title)}`
 
@@ -74,7 +73,7 @@ export default async function Blog({
 }) {
   const { id } = await params
   const metadata = await getBlogPostMetadata(id)
-  let post = getBlogPosts().find((post) => post.id === id)
+  const post = getBlogPosts().find((post) => post.id === id)
 
   if (!post) {
     notFound()

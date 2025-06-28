@@ -3,8 +3,8 @@ import React from 'react'
 import { BlogPostCard } from './post_card'
 
 export async function BlogPosts() {
-  let blogsRaw = getBlogPosts()
-  let blogs = await Promise.all(
+  const blogsRaw = getBlogPosts()
+  const blogs = await Promise.all(
     blogsRaw.map(async (post) => ({
       ...post,
       metadata: await post.metadata,

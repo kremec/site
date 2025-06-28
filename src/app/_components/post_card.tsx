@@ -10,7 +10,7 @@ export function BlogPostCard({
   id: string
   metadata: BlogPostData
 }) {
-  const { title, description, publishedAt, tags } = metadata as any
+  const { title, description, publishedAt } = metadata
   return (
     <div className="relative">
       <Link href={`/blog/${id}`} className="peer">
@@ -38,18 +38,6 @@ export function BlogPostCard({
         </div>
       </Link>
       <div className="bg-svg2 absolute top-2 left-2 -z-10 h-full w-full rounded-md transition-all duration-300 peer-hover:top-0 peer-hover:left-0" />
-      {tags && Array.isArray(tags) && tags.length > 0 && (
-        <div className="absolute right-2 bottom-2 z-10 flex gap-1">
-          {tags.map((tag: string) => (
-            <span
-              key={tag}
-              className="rounded border bg-white px-2 py-0.5 font-mono text-xs text-black"
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
-      )}
     </div>
   )
 }

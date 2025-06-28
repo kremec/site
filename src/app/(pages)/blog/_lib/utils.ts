@@ -4,7 +4,7 @@ import { getBlogPostMetadata } from './post_metadata'
 import dynamic from 'next/dynamic'
 
 function getMDXData(dir: fs.PathLike) {
-  let mdxFiles = fs
+  const mdxFiles = fs
     .readdirSync(dir)
     .filter((file) => path.extname(file) === '.mdx')
 
@@ -27,7 +27,7 @@ export function getBlogPosts() {
 }
 
 export function formatDate(date: Date) {
-  let fullDate = date.toLocaleString('en-us', {
+  const fullDate = date.toLocaleString('en-us', {
     month: 'long',
     day: 'numeric',
     year: 'numeric',
