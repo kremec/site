@@ -7,18 +7,16 @@ export type BlogPostData = {
 }
 
 export async function getBlogPostMetadata(id: string): Promise<BlogPostData> {
-  try {
-    const file = await import('@/app/(pages)/blog/(posts)/' + id)
+  const file = await import('@/app/(pages)/blog/(posts)/' + id + '.mdx')
 
-    if (file?.metadata) {
-      return {
-        id,
-        ...file.metadata,
-      }
-    } else {
-      throw new Error(`Unable to find metadata for ${id}.mdx`)
+  if (file?.metadata) {
+    return {
+      id,
+      ...file.metadata,
     }
-  } catch (error) {
-    throw new Error(`Unable to find metadata for ${id}.mdx: ${error}`)
+  } else {
+    throw new Error(
+      `Unable to find metadata for: '@/app/(pages)/blog/(posts)/' + ${id}`,
+    )
   }
 }

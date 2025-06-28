@@ -9,11 +9,14 @@ function getMDXData(dir: fs.PathLike) {
     .filter((file) => path.extname(file) === '.mdx')
 
   return mdxFiles.map((file) => {
-    const metadata = getBlogPostMetadata(file)
-    const content = dynamic(() => import(`@/app/(pages)/blog/(posts)/${file}`))
+    const id = file.replace('.mdx', '')
+    const metadata = getBlogPostMetadata(id)
+    const content = dynamic(
+      () => import(`@/app/(pages)/blog/(posts)/${id}.mdx`),
+    )
 
     return {
-      id: file,
+      id,
       metadata,
       content,
     }
