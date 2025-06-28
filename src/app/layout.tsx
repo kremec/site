@@ -10,6 +10,7 @@ import {
   SITE_KEYWORDS,
   SITE_TITLE,
 } from './constants/names'
+import Posthog from './posthog'
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
@@ -51,6 +52,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <Posthog />
       <body className="flex min-h-screen w-full flex-col p-4 font-normal md:p-10">
         <div className="md:hidden">
           <HorizontalHeader />
