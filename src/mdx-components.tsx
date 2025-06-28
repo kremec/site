@@ -1,6 +1,6 @@
 import type { MDXComponents } from 'mdx/types'
-import { BlogPosts } from './app/_components/posts'
-import ProjectList from './app/_components/ProjectList'
+import { BlogPosts } from './app/_components/post_list'
+import ProjectList from './app/_components/project_list'
 import Link from 'next/link'
 
 export function useMDXComponents(components: MDXComponents): MDXComponents {

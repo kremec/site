@@ -1,25 +1,19 @@
 import Link from 'next/link'
-import { formatDate, getBlogPosts } from '@/app/(pages)/blog/utils'
+import { formatDate } from '@/app/(pages)/blog/_lib/utils'
 import React from 'react'
+import { BlogPostData } from '../(pages)/blog/_lib/post_metadata'
 
-type BlogPostsProps = {
-  limit?: number
-  tag?: string | null
-}
-
-type BlogPost = ReturnType<typeof getBlogPosts>[number]
-
-type BlogPostCardProps = {
-  post: BlogPost
-  highlight?: string | null
-}
-
-function BlogPostCard({ post, highlight }: BlogPostCardProps) {
-  const { metadata, slug } = post
+export function BlogPostCard({
+  id,
+  metadata,
+}: {
+  id: string
+  metadata: BlogPostData
+}) {
   const { title, description, publishedAt, tags } = metadata as any
   return (
     <div className="group relative transition-all">
-      <Link href={`/blog/${slug}`} className="peer block">
+      <Link href={`/blog/${id}`} className="peer block">
         <div className="relative overflow-hidden rounded-md border-2 border-black">
           <div className="relative z-10 flex h-full w-full flex-col items-start bg-white bg-[image:var(--background-svg1)] p-3">
             <h4 className="text-lg font-bold text-wrap">
@@ -37,7 +31,7 @@ function BlogPostCard({ post, highlight }: BlogPostCardProps) {
             <div className="py-1"></div>
             <p className="text-sm italic">
               <span className="relative inline-block before:absolute before:top-0 before:right-0 before:bottom-0 before:left-0 before:-z-10 before:bg-white before:blur-[0.5em] before:content-['']">
-                {formatDate(publishedAt, false)}
+                {formatDate(publishedAt)}
               </span>
             </p>
           </div>
@@ -49,7 +43,7 @@ function BlogPostCard({ post, highlight }: BlogPostCardProps) {
           {tags.map((tag: string) => (
             <span
               key={tag}
-              className={`rounded border px-2 py-0.5 font-mono text-xs ${highlight === tag ? 'bg-black text-white' : 'bg-white text-black'}`}
+              className={`'bg-white text-black' rounded border px-2 py-0.5 font-mono text-xs`}
             >
               {tag}
             </span>
@@ -57,32 +51,5 @@ function BlogPostCard({ post, highlight }: BlogPostCardProps) {
         </div>
       )}
     </div>
-  )
-}
-
-export function BlogPosts({ limit, tag }: BlogPostsProps = {}) {
-  let allBlogs = getBlogPosts().sort((a, b) => {
-    const aDate = new Date(a.metadata.publishedAt)
-    const bDate = new Date(b.metadata.publishedAt)
-    return bDate.getTime() - aDate.getTime()
-  })
-
-  let filtered = tag
-    ? allBlogs.filter(
-        (post) =>
-          Array.isArray(post.metadata.tags) && post.metadata.tags.includes(tag),
-      )
-    : allBlogs
-  let sliced = limit ? filtered.slice(0, limit) : filtered
-
-  return (
-    <ul className="flex flex-col items-center gap-y-5">
-      {sliced.length === 0 && <p>No posts yet</p>}
-      {sliced.map((post) => (
-        <li className="w-full" key={post.slug}>
-          <BlogPostCard post={post} highlight={tag ?? undefined} />
-        </li>
-      ))}
-    </ul>
   )
 }

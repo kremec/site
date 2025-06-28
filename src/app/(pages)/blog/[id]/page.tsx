@@ -1,28 +1,28 @@
 import { notFound } from 'next/navigation'
-import { formatDate, getBlogPosts } from '../utils'
+import { formatDate, getBlogPosts } from '../_lib/utils'
 import { baseUrl } from '@/app/sitemap'
+import { Metadata } from 'next/types'
+import { getBlogPostMetadata } from '../_lib/post_metadata'
+import { get } from 'http'
 
 export async function generateStaticParams() {
   let posts = getBlogPosts()
-
-  return posts.map((post) => ({
-    id: post.slug,
-  }))
+  return posts.map((post) => ({ id: post.id }))
 }
 
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ id: string }>
-}) {
+}): Promise<Metadata> {
   const { id } = await params
-  let post = getBlogPosts().find((post) => post.slug === id)
+  const metadata = await getBlogPostMetadata(id)
 
-  if (!post) {
-    return {}
+  if (!metadata) {
+    throw new Error(`Unable to find metadata for ${id}.mdx`)
   }
+  const { title, publishedAt, description, image } = metadata
 
-  let { title, publishedAt: publishedTime, description, image } = post.metadata
   let ogImage = image
     ? image
     : `${baseUrl}/og?title=${encodeURIComponent(title)}`
@@ -34,8 +34,8 @@ export async function generateMetadata({
       title,
       description,
       type: 'article',
-      publishedTime,
-      url: `${baseUrl}/blog/${post.slug}`,
+      publishedTime: formatDate(publishedAt),
+      url: `${baseUrl}/blog/${id}`,
       images: [
         {
           url: ogImage,
@@ -52,12 +52,12 @@ export async function generateMetadata({
       'application/ld+json': JSON.stringify({
         '@context': 'https://schema.org',
         '@type': 'BlogPosting',
-        headline: post.metadata.title,
-        datePublished: post.metadata.publishedAt,
-        dateModified: post.metadata.publishedAt,
-        description: post.metadata.description,
-        image: post.metadata.image,
-        url: `${baseUrl}/blog/${post.slug}`,
+        headline: title,
+        datePublished: publishedAt,
+        dateModified: publishedAt,
+        description: description,
+        image: image,
+        url: `${baseUrl}/blog/${id}`,
         author: {
           '@type': 'Person',
           name: 'subbyte',
@@ -73,7 +73,8 @@ export default async function Blog({
   params: Promise<{ id: string }>
 }) {
   const { id } = await params
-  let post = getBlogPosts().find((post) => post.slug === id)
+  const metadata = await getBlogPostMetadata(id)
+  let post = getBlogPosts().find((post) => post.id === id)
 
   if (!post) {
     notFound()
@@ -82,14 +83,16 @@ export default async function Blog({
   return (
     <section>
       <h1 className="title text-2xl font-semibold tracking-tighter">
-        {post.metadata.title}
+        {metadata.title}
       </h1>
       <div className="mt-2 mb-8 flex items-center justify-between text-sm">
         <p className="text-sm text-neutral-600 dark:text-neutral-400">
-          {formatDate(post.metadata.publishedAt)}
+          {formatDate(metadata.publishedAt)}
         </p>
       </div>
-      <article className="prose">{post.content}</article>
+      <article className="prose">
+        <post.content />
+      </article>
     </section>
   )
 }
