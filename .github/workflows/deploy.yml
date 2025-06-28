@@ -23,27 +23,25 @@ jobs:
         with:
           fetch-depth: 1
 
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "18"
+          cache: 'pnpm'
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: latest
-          run_install: false
-
-      - name: Cache dependencies
+      - name: Setup Next.js cache
         uses: actions/cache@v4
         with:
           path: |
-            ~/.pnpm-store
-            node_modules
             ${{ github.workspace }}/.next/cache
-          key: ${{ runner.os }}-deps-${{ hashFiles('**/pnpm-lock.yaml') }}
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/pnpm-lock.yaml') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
           restore-keys: |
-            ${{ runner.os }}-deps-
+            ${{ runner.os }}-nextjs-${{ hashFiles('**/pnpm-lock.yaml') }}-
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -56,33 +54,6 @@ jobs:
         env:
           NODE_ENV: production
           NEXT_TELEMETRY_DISABLED: 1
-
-      - name: Debug build output
-        run: |
-          echo "=== Full Build Output Structure ==="
-          find out/ -type f | sort
-          echo ""
-          echo "=== Checking for robots.txt related files ==="
-          find out/ -name "*robots.txt*" -type f
-          if [ -f "out/robots.txt" ]; then
-            echo "robots.txt found and contents:"
-            cat out/robots.txt
-          else
-            echo "robots.txt is missing!"
-          fi
-          echo ""
-          echo "=== Total files in out/ ==="
-          find out/ -type f | wc -l
-
-      - name: Verify build output
-        run: |
-          if [ ! -d "out" ]; then
-            echo "Build failed - out directory not found"
-            exit 1
-          fi
-          echo "Static export output contents:"
-          find out/ -type f -name "*.html" | head -10
-          echo "Total files: $(find out/ -type f | wc -l)"
 
       - name: Deploy to FTP (Alternative)
         uses: sebastianpopp/ftp-action@releases/v2
