@@ -4,7 +4,12 @@ import { baseUrl } from './sitemap'
 import Footer from './_components/footer'
 import HorizontalHeader from './_components/header_horizontal'
 import VerticalHeader from './_components/header_vertical'
-import { SITE_DESCRIPTION, SITE_TITLE } from './constants/names'
+import {
+  SITE_AUTHOR,
+  SITE_DESCRIPTION,
+  SITE_KEYWORDS,
+  SITE_TITLE,
+} from './constants/names'
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
@@ -21,6 +26,11 @@ export const metadata: Metadata = {
     locale: 'en_US',
     type: 'website',
   },
+  viewport: 'width=device-width, initial-scale=1',
+  keywords: SITE_KEYWORDS,
+  creator: SITE_AUTHOR,
+  publisher: SITE_AUTHOR,
+  generator: 'Next.js',
   robots: {
     index: true,
     follow: true,
