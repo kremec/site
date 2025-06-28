@@ -17,7 +17,7 @@ export default async function sitemap() {
     }),
   )
 
-  const routes = ['', 'portfolio', '/blog'].map((route) => ({
+  const routes = ['', '/portfolio', '/blog'].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date().toISOString().split('T')[0],
   }))
