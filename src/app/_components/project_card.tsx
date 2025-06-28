@@ -29,7 +29,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         </div>
       </div>
     </a>
-    <div className="transition-top bg-svg2 absolute top-[0.5em] left-[0.5em] -z-10 h-full w-full rounded-md duration-300 peer-hover:-top-[0.5em]" />
+    <div className="bg-svg2 transition-top absolute top-2 left-2 -z-10 h-full w-full rounded-md duration-300 peer-hover:top-0 peer-hover:left-0" />
   </div>
 )
 

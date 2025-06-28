@@ -1,12 +1,24 @@
 // tailwind.config.ts
 import type { Config } from 'tailwindcss'
 
+const dotSvg =
+  "data:image/svg+xml,%3csvg width='8' height='8' xmlns='http://www.w3.org/2000/svg'%3e%3ccircle cx='2' cy='2' r='1' fill='%23ddd'/%3e%3ccircle cx='6' cy='6' r='1' fill='%23ddd'/%3e%3c/svg%3e"
+const stripeSvg =
+  "data:image/svg+xml,%3csvg width='8' height='8' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='%23ddd' stroke-width='1' d='M0,0 L8,8 M0,8 L8,0'/%3e%3c/svg%3e"
+
 const config: Config = {
   content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
   theme: {
     extend: {
       fontFamily: {
         sans: ['Berkeley Mono Variable', 'sans-serif'],
+      },
+      transitionProperty: {
+        top: 'top',
+      },
+      skew: {
+        5: '5deg',
+        10: '10deg',
       },
       typography: {
         DEFAULT: {

@@ -12,10 +12,10 @@ export function BlogPostCard({
 }) {
   const { title, description, publishedAt, tags } = metadata as any
   return (
-    <div className="group relative transition-all">
-      <Link href={`/blog/${id}`} className="peer block">
+    <div className="relative">
+      <Link href={`/blog/${id}`} className="peer">
         <div className="relative overflow-hidden rounded-md border-2 border-black">
-          <div className="relative z-10 flex h-full w-full flex-col items-start bg-white bg-[image:var(--background-svg1)] p-3">
+          <div className="bg-svg1 relative z-10 flex h-full w-full flex-col items-start bg-white p-3">
             <h4 className="text-lg font-bold text-wrap">
               <span className="relative inline-block before:absolute before:top-0 before:right-0 before:bottom-0 before:left-0 before:-z-10 before:bg-white before:blur-[0.5em] before:content-['']">
                 {title}
@@ -37,13 +37,13 @@ export function BlogPostCard({
           </div>
         </div>
       </Link>
-      <div className="transition-top absolute top-[0.5em] left-[0.5em] -z-10 h-full w-full rounded-md bg-[image:var(--background-svg2)] duration-300 group-hover:-top-[0.5em]" />
+      <div className="bg-svg2 absolute top-2 left-2 -z-10 h-full w-full rounded-md transition-all duration-300 peer-hover:top-0 peer-hover:left-0" />
       {tags && Array.isArray(tags) && tags.length > 0 && (
         <div className="absolute right-2 bottom-2 z-10 flex gap-1">
           {tags.map((tag: string) => (
             <span
               key={tag}
-              className={`'bg-white text-black' rounded border px-2 py-0.5 font-mono text-xs`}
+              className="rounded border bg-white px-2 py-0.5 font-mono text-xs text-black"
             >
               {tag}
             </span>

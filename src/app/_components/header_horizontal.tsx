@@ -7,29 +7,8 @@ import {
   LINKEDIN_LINK,
   YOUTUBE_LINK,
 } from '../constants/links'
-
-// Internal link component
-function HeaderInternalLink({ href, label }: { href: string; label: string }) {
-  return (
-    <Link href={href} className="hover:underline">
-      {label}
-    </Link>
-  )
-}
-
-// External link component
-function HeaderExternalLink({ href, label }: { href: string; label: string }) {
-  return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="hover:underline"
-    >
-      {label}
-    </a>
-  )
-}
+import HeaderInternalLink from './header_internal_link'
+import HeaderExternalLink from './header_external_link'
 
 export default function HorizontalHeader({
   keyword = '',
