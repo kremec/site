@@ -55,12 +55,13 @@ jobs:
           NODE_ENV: production
           NEXT_TELEMETRY_DISABLED: 1
 
-      - name: Deploy to FTP (Alternative)
-        uses: sebastianpopp/ftp-action@releases/v2
+      - name: Deploy to FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          host: ${{ secrets.FTP_HOSTNAME }}
-          user: ${{ secrets.FTP_USERNAME }}
+          server: ${{ secrets.FTP_HOSTNAME }}
+          username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          localDir: "out"
-          remoteDir: "htdocs"
-          options: "--delete --verbose"
+          local-dir: "out/"
+          server-dir: "htdocs/"
+          exclude: "**/.htaccess"
+          log-level: verbose
