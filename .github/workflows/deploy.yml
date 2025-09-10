@@ -18,7 +18,12 @@ jobs:
     timeout-minutes: 15
 
     steps:
-      # Setup
+      # Next
+      - name: Checkout Next repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
@@ -29,12 +34,6 @@ jobs:
         with:
           node-version: '20'
           cache: 'pnpm'
-
-      # Next
-      - name: Checkout Next repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 1
 
       - name: Setup Next cache
         uses: actions/cache@v4
