@@ -1,4 +1,4 @@
-name: Deploy Next.js Website
+name: Deploy Next.js + Quartz Website
 
 on:
   push:
@@ -12,7 +12,7 @@ concurrency:
 
 jobs:
   web-deploy:
-    name: Deploy
+    name: Build & Deploy
     runs-on: ubuntu-latest
     environment: production
     timeout-minutes: 15
@@ -23,6 +23,14 @@ jobs:
         with:
           fetch-depth: 1
 
+      - name: Checkout Quartz repository
+        uses: actions/checkout@v4
+        with:
+          repository: kremec/SubNotes-Quartz
+          ref: v4
+          token: ${{ secrets.PAT_READ_REPOS }}
+          path: quartz
+
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
@@ -31,7 +39,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "18"
+          node-version: "20"
           cache: 'pnpm'
 
       - name: Setup Next.js cache
@@ -43,8 +51,30 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('**/pnpm-lock.yaml') }}-
 
-      - name: Install dependencies
+      - name: Install Next.js dependencies
         run: pnpm install --frozen-lockfile
+
+      - name: Cache Quartz node_modules
+        uses: actions/cache@v4
+        with:
+          path: quartz/node_modules
+          key: ${{ runner.os }}-quartz-npm-${{ hashFiles('quartz/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-quartz-npm-
+
+      - name: Install Quartz dependencies
+        working-directory: quartz
+        run: npm ci
+
+      - name: Build Quartz
+        working-directory: quartz
+        run: npx quartz build
+
+      - name: Copy Quartz output into Next public/notes
+        run: |
+          rm -rf public/notes
+          mkdir -p public/notes
+          cp -a quartz/public/. public/notes/
 
       - name: Security audit
         run: pnpm audit --audit-level=moderate
