@@ -21,6 +21,7 @@ export default function VerticalHeader({ keyword = '' }: { keyword?: string }) {
       <div className="py-1"></div>
       <HeaderInternalLink href="/portfolio" label="Portfolio" />
       <HeaderInternalLink href="/blog" label="Blog" />
+      <HeaderInternalLink href="/notes" label="Notes" />
       <div className="py-2"></div>
       <HeaderExternalLink href={GITHUB_LINK} label="GitHub" />
       <HeaderExternalLink href={ANDROID_LINK} label="Android" />

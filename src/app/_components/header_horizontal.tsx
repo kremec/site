@@ -31,6 +31,9 @@ export default function HorizontalHeader({
           <div className="flex w-full justify-end gap-x-4">
             <HeaderInternalLink href="/blog" label="Blog" />
           </div>
+          <div className="flex w-full justify-end gap-x-4">
+            <HeaderInternalLink href="/notes" label="Notes" />
+          </div>
         </div>
       </div>
       <div className="py-3"></div>
