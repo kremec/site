@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: "deploy"
+  group: 'deploy'
   cancel-in-progress: true
 
 jobs:
@@ -18,19 +18,7 @@ jobs:
     timeout-minutes: 15
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 1
-
-      - name: Checkout Quartz repository
-        uses: actions/checkout@v4
-        with:
-          repository: kremec/SubNotes-Quartz
-          ref: v4
-          token: ${{ secrets.PAT_READ_REPOS }}
-          path: quartz
-
+      # Setup
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
@@ -39,10 +27,16 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: '20'
           cache: 'pnpm'
 
-      - name: Setup Next.js cache
+      # Next
+      - name: Checkout Next repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Setup Next cache
         uses: actions/cache@v4
         with:
           path: |
@@ -51,8 +45,26 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('**/pnpm-lock.yaml') }}-
 
-      - name: Install Next.js dependencies
+      - name: Install Next dependencies
         run: pnpm install --frozen-lockfile
+
+      - name: Security audit
+        run: pnpm audit --audit-level=moderate
+
+      - name: Build and export Next
+        run: pnpm run build
+        env:
+          NODE_ENV: production
+          NEXT_TELEMETRY_DISABLED: 1
+
+      # Quartz
+      - name: Checkout Quartz repository
+        uses: actions/checkout@v4
+        with:
+          repository: kremec/SubNotes-Quartz
+          ref: v4
+          token: ${{ secrets.PAT_READ_REPOS }}
+          path: quartz
 
       - name: Cache Quartz node_modules
         uses: actions/cache@v4
@@ -70,20 +82,11 @@ jobs:
         working-directory: quartz
         run: npx quartz build
 
-      - name: Copy Quartz output into Next public/notes
+      - name: Copy Quartz output into Next /notes
         run: |
-          rm -rf public/notes
-          mkdir -p public/notes
-          cp -a quartz/public/. public/notes/
-
-      - name: Security audit
-        run: pnpm audit --audit-level=moderate
-
-      - name: Build and export Next.js
-        run: pnpm run build
-        env:
-          NODE_ENV: production
-          NEXT_TELEMETRY_DISABLED: 1
+          rm -rf out/notes
+          mkdir -p out/notes
+          cp -a quartz/public/. out/notes/
 
       - name: Deploy to FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
@@ -91,7 +94,7 @@ jobs:
           server: ${{ secrets.FTP_HOSTNAME }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: "out/"
-          server-dir: "htdocs/"
-          exclude: "**/.htaccess"
+          local-dir: 'out/'
+          server-dir: 'htdocs/'
+          exclude: '**/.htaccess'
           log-level: verbose
