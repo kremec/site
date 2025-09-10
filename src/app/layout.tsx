@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import './globals.css'
 import { baseUrl } from './sitemap'
 import Footer from './_components/footer'
@@ -27,7 +27,6 @@ export const metadata: Metadata = {
     locale: 'en_US',
     type: 'website',
   },
-  viewport: 'width=device-width, initial-scale=1',
   keywords: SITE_KEYWORDS,
   creator: SITE_AUTHOR,
   publisher: SITE_AUTHOR,
@@ -43,6 +42,11 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
+}
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
 }
 
 export default function RootLayout({
