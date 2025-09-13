@@ -11,19 +11,47 @@ export async function BlogPosts() {
     })),
   )
 
-  blogs.sort((a, b) => {
-    const aDate = new Date(a.metadata.publishedAt)
-    const bDate = new Date(b.metadata.publishedAt)
-    return bDate.getTime() - aDate.getTime()
+  // Group blogs by series
+  const blogsBySeries: Record<string, typeof blogs> = {}
+  blogs.forEach((post) => {
+    const series = post.metadata.series || 'Uncategorized'
+    if (!blogsBySeries[series]) {
+      blogsBySeries[series] = []
+    }
+    blogsBySeries[series].push(post)
   })
+
+  // Sort series alphabetically
+  const sortedSeries = Object.keys(blogsBySeries).sort()
+
+  // Sort posts within each series by partInSeries
+  sortedSeries.forEach((series) => {
+    blogsBySeries[series].sort((a, b) => {
+      return (a.metadata.partInSeries ?? 0) - (b.metadata.partInSeries ?? 0)
+    })
+  })
+
+  if (blogs.length === 0) {
+    return (
+      <ul className="flex flex-col items-center gap-y-5">
+        <p>No posts yet</p>
+      </ul>
+    )
+  }
 
   return (
     <ul className="flex flex-col items-center gap-y-5">
-      {blogs.length === 0 && <p>No posts yet</p>}
-      {blogs.map((post) => (
-        <li className="w-full" key={post.id}>
-          <BlogPostCard id={post.id} metadata={post.metadata} />
-        </li>
+      {sortedSeries.map((series) => (
+        <div key={series} className="w-full">
+          <h2 className="mb-4 text-2xl font-bold">{series}</h2>
+          <ul className="flex flex-col items-center gap-y-5">
+            {blogsBySeries[series].map((post) => (
+              <li className="w-full" key={post.id}>
+                <BlogPostCard id={post.id} metadata={post.metadata} />
+              </li>
+            ))}
+          </ul>
+        </div>
       ))}
     </ul>
   )

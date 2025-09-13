@@ -2,8 +2,10 @@ export type BlogPostData = {
   id: string
   title: string
   description?: string
+  series?: string
+  partInSeries?: number
   publishedAt: Date
-  image: string
+  image?: string
 }
 
 export async function getBlogPostMetadata(id: string): Promise<BlogPostData> {
