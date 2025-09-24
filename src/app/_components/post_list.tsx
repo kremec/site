@@ -43,7 +43,7 @@ export async function BlogPosts() {
     <ul className="flex flex-col items-center gap-y-5">
       {sortedSeries.map((series) => (
         <div key={series} className="w-full">
-          <h2 className="mb-4 text-2xl font-bold">{series}</h2>
+          <h4 className="mb-4 text-xl font-bold">{series}</h4>
           <ul className="flex flex-col items-center gap-y-5">
             {blogsBySeries[series].map((post) => (
               <li className="w-full" key={post.id}>

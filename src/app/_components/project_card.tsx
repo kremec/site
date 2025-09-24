@@ -3,12 +3,14 @@ import React from 'react'
 export interface ProjectCardProps {
   title: string
   description: string
+  tech: string[]
   link: string
 }
 
 const ProjectCard: React.FC<ProjectCardProps> = ({
   title,
   description,
+  tech,
   link,
 }) => (
   <div className="relative">
@@ -20,12 +22,20 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
               {title}
             </span>
           </h4>
-          <div className="py-1"></div>
           <p className="text-sm">
             <span className="relative inline-block before:absolute before:top-0 before:right-0 before:bottom-0 before:left-0 before:-z-10 before:bg-white before:blur-[0.5em] before:content-['']">
               {description}
             </span>
           </p>
+          <div className="mt-2 flex flex-row flex-wrap gap-3">
+            {tech.map((techItem, index) => (
+              <p key={index}>
+                <span className="relative inline-block font-bold before:absolute before:top-0 before:right-0 before:bottom-0 before:left-0 before:-z-10 before:bg-white before:blur-[0.3em] before:content-['']">
+                  {techItem}
+                </span>
+              </p>
+            ))}
+          </div>
         </div>
       </div>
     </a>
