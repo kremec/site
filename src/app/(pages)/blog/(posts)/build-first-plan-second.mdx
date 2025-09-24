@@ -1,0 +1,57 @@
+export const metadata = {
+    title: 'Build first, plan second',
+    description: 'Good software is built for users, not for documentation',
+    series: 'Path of becoming a good software engineer',
+    publishedAt: new Date('2025/09/24'),
+}
+
+There are two types of engineers (especially at big tech companies): those who write very detailed software design documentation first, and those who build a working proof of concept first.
+
+#### Design documentation fallacy
+
+Design documentation as a starting point of developing or iterating on a product discourages testing the idea out with actual users (who may not have specified the problem correctly or wouldn't agree with the proposed solution) and/or discussing it with other engineers at the company, with perhaps better knowledge about the problem. This causes the development team to commit to unnecessarily complex or outright wrong solutions, and writing those down in design documents encourages those bad decisions to persist through later phases of development, since anything already written down is harder to delete, even if it's obviously wrong.
+
+This type of documentation writer will assume complexity (in all the wrong places) because it just feels right. Meanwhile, software engineers should actually try to implement the core idea with as little complexity as possible.
+
+#### What then?
+
+Before diving headfirst into building the whole idea, build a prototype of the complex idea to see where your assumptions about the problem and the assumed solution fall apart. The prototype should be built in the easiest and fastest possible way (without rushing into problems you don't have yet), and then fix things that break (or rewrite it) until it is acceptable. Fast prototyping accelerates the early feedback loop, where final quality doesn't matter as much as figuring out what the right thing to build is and how to do it as fast as possible.
+
+If the prototype is not complex and is good enough for production, just ship it. Only if this isn't the case should you rebuild the whole solution from the ground up. Use the newly-gained knowledge about where and how much actual complexity lies in the proposed solution to both build a better version of the product and write actually insightful documentation. When doing the rewrite, you already know exactly how the desired result should behave, so less time is spent writing code and more effort is put into review, integration, and later maintenance.
+
+>"If engineers were good at guessing or knowing where complexity exists, they would be politicians, not engineers."
+> <pre>    - Theo Browne, summarized</pre>
+
+#### Keep complexity out
+
+Aiming to make the solution simple almost always scales better than starting with a (possibly wrong) complex solution and trying to morph it later. Most projects don't need to scale to extremes in the first place and are damaged by pretending to.
+
+If you can't easily explain why something is difficult, then it represents incidental complexity, which should not even be there in the first place. Addressing that first and implementing the new feature later not only makes the codebase easier to navigate in the future, but also removes unnecessary complexity before spiralling out of control.
+
+And the thing about abstractions is - very few abstractions should exist in general application development. Just write the code you need and stop abstracting beyond recognition.
+
+#### Pace the quality
+
+The trade-off between quality and pace should still depend on the context. But for the majority of projects where bugs aren't mission-critical (e.g., banking), you're going to get further with shipping fast and fixing bugs along the way rather than taking time to make sure you're shipping pristine features first try.
+
+Over time, you learn the specific situations where planning ahead makes sense (e.g., thinking through SQL table design ahead of time rather than changing it later, which can be extremely hard without downtime).
+
+Be willing to cut out 10% of a new feature that would take 50% of the engineering time, and build foresight to know what those pieces are over time.
+
+#### Deploy, debug, deploy
+
+When starting a new project, immediately try to incorporate automatic builds and deployments using CI/CD pipelines to deploy the system easier and faster before developing it further. This will help you spot errors that don't happen in the local environment, and make it easier to show progress to QA testers and other developers.
+
+Make debugging easier, otherwise, you'll be terrified to make changes because possible new bugs might take you too long to figure out. If over 50% of debugging time is spent on setup, reproduction of state, and cleanup, figure out how to make it easier as soon as possible.
+
+#### Too long, can't / won't read
+
+Try building a simple prototype of the desired product as soon as possible, learning about the problem space in the meantime. Testing a possible solution to users' problems early on will possibly give you more valuable feedback than you would get from months of dry planning.
+
+#### External sources
+
+- [Theo Browne: Build first, plan second](https://youtu.be/rosMfs3pZ_0)
+- [Chris Kiehl: Software development topics I've changed my mind on after 10 years in the industry](https://youtu.be/pnpUK-f87zo)
+- [Marcus Buffet: A Bunch of Programming Advice I’d Give To Myself 15 Years Ago](https://mbuffett.com/posts/programming-advice-younger-self/)
+- [Pedro Tavares: Writing Code Was Never The Bottleneck](https://ordep.dev/posts/writing-code-was-never-the-bottleneck)
+- [Theo Browne: My current stack](https://youtu.be/5qG6yDO5lUM)
