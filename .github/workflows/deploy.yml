@@ -24,34 +24,28 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
+      - name: Install Bun
+        uses: oven-sh/setup-bun@v1
         with:
-          version: 10
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-          cache: 'pnpm'
+          bun-version: latest
 
       - name: Setup Next cache
         uses: actions/cache@v4
         with:
           path: |
             ${{ github.workspace }}/.next/cache
-          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/pnpm-lock.yaml') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/bun.lockb') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
           restore-keys: |
-            ${{ runner.os }}-nextjs-${{ hashFiles('**/pnpm-lock.yaml') }}-
+            ${{ runner.os }}-nextjs-${{ hashFiles('**/bun.lockb') }}-
 
       - name: Install Next dependencies
-        run: pnpm install --frozen-lockfile
+        run: bun install --frozen-lockfile
 
       - name: Security audit
-        run: pnpm audit --audit-level=moderate
+        run: bun audit --audit-level moderate
 
       - name: Build and export Next
-        run: pnpm run build
+        run: bun run build
         env:
           NODE_ENV: production
           NEXT_TELEMETRY_DISABLED: 1
@@ -69,17 +63,17 @@ jobs:
         uses: actions/cache@v4
         with:
           path: quartz/node_modules
-          key: ${{ runner.os }}-quartz-npm-${{ hashFiles('quartz/package-lock.json') }}
+          key: ${{ runner.os }}-quartz-bun-${{ hashFiles('quartz/bun.lockb') }}
           restore-keys: |
-            ${{ runner.os }}-quartz-npm-
+            ${{ runner.os }}-quartz-bun-
 
       - name: Install Quartz dependencies
         working-directory: quartz
-        run: npm ci
+        run: bun install --frozen-lockfile
 
       - name: Build Quartz
         working-directory: quartz
-        run: npx quartz build
+        run: bunx quartz build
 
       - name: Copy Quartz output into Next /notes
         run: |
