@@ -51,6 +51,11 @@ jobs:
           NEXT_TELEMETRY_DISABLED: 1
 
       # Quartz
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
       - name: Checkout Quartz repository
         uses: actions/checkout@v4
         with:
